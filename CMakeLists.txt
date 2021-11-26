@@ -13,5 +13,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
 
 add_executable(req_sequential src/req_sequential.cpp)
 add_executable(bin_generator src/bin_generator.cpp)
-#target_link_libraries(req_sequential ${MPI_LIBRARIES})
+add_executable(req_parallel src/req_parallel.cpp)
+target_link_libraries(req_parallel ${MPI_LIBRARIES})
 
