@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
         //std::cout << a[i] << std::endl;
     }
     //fout.open("streamdata");
-    fout.write((char *) &n, sizeof(int));
+    fout.write((char *) &n, sizeof(long));
     fout.write((char *) a, sizeof(data_t) * n);
 
     fout.close();
