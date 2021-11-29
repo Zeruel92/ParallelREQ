@@ -20,10 +20,10 @@ int main(int argc, char** argv){
     long n;
     data_t *elements=NULL;
     int block_size;
-    int block_low,block_high;
+    int block_low;
     datasketches::req_sketch<float> sketch(12);
     MPI_Op merge_reduce_op;
-    uint8_t *merged_bytes;
+    uint8_t *merged_bytes = nullptr;
 
 #ifdef _DEBUG
     int debug = 1;
@@ -44,7 +44,6 @@ int main(int argc, char** argv){
     inputStream.read((char *) &n,sizeof(long));
 
     block_size = BLOCK_SIZE(rank,processes,n);
-    block_high = BLOCK_HIGH(rank,processes,n);
     block_low = BLOCK_LOW(rank,processes,n);
 
     elements = (data_t *) malloc(sizeof(data_t)*block_size);
@@ -53,7 +52,7 @@ int main(int argc, char** argv){
 
     inputStream.read((char *)elements,sizeof(data_t)*block_size);
 
-#ifdef DEBUG
+#ifdef _DEBUG
     if (!rank) {
         std::cout<<"INPUT Vector: "<<n<<std::endl;
     } else {
@@ -77,7 +76,7 @@ int main(int argc, char** argv){
         MPI_Reduce(bytes.data(),merged_bytes,data_size,MPI_BYTE,merge_reduce_op,0,MPI_COMM_WORLD);
 
         if(!rank) sketch = datasketches::req_sketch<data_t>::deserialize((uint8_t *) merged_bytes,(size_t) data_size);
-        free(merged_bytes),merged_bytes=NULL;
+        free(merged_bytes),merged_bytes= nullptr;
     }
     MPI_Barrier(MPI_COMM_WORLD);
     elapsed += MPI_Wtime();
@@ -103,8 +102,8 @@ int main(int argc, char** argv){
 void merge_reduce(void *inputBuffer, void *outputBuffer,int *len,MPI_Datatype *datatype){
     datasketches::req_sketch<data_t> insketch(12);
     datasketches::req_sketch<data_t> outsketch(12);
-    insketch = datasketches::req_sketch<data_t>::deserialize((uint8_t *) inputBuffer,(size_t) len);
-    outsketch = datasketches::req_sketch<data_t>::deserialize((uint8_t *) outputBuffer,(size_t) len);
+    insketch = datasketches::req_sketch<data_t>::deserialize((uint8_t *) inputBuffer, (size_t) len);
+    outsketch = datasketches::req_sketch<data_t>::deserialize((uint8_t *) outputBuffer, (size_t) len);
     outsketch.merge(insketch);
     std::vector<uint8_t, std::allocator<uint8_t>> bytes = outsketch.serialize();
     outputBuffer = (void *) bytes.data();
