@@ -18,7 +18,7 @@ int main(int argc, char** argv){
     double elapsed,global_elapsed;
     std::ifstream inputStream;
     long n;
-    data_t *elements=NULL;
+    data_t *elements= nullptr;
     int block_size;
     int block_low;
     datasketches::req_sketch<float> sketch(12);
@@ -86,7 +86,7 @@ int main(int argc, char** argv){
     MPI_Finalize();
 
     if(!rank) {
-        std::cout << "ParallelREQ time:" << global_elapsed << " number of processors: " << processes << std::endl;
+        std::cout << "ParallelREQ running time:" << global_elapsed << " number of processors: " << processes << std::endl;
 
         double ranks[12] = {0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.95, 0.99};
         std::vector<float> quantiles;
@@ -96,7 +96,7 @@ int main(int argc, char** argv){
             std::cout << "Rank: " << ranks[i] << " Quantile: " << quantiles[i] << std::endl;
         }
     }
-    free(elements),elements=NULL;
+    free(elements),elements= nullptr;
     return 0;
 }
 
