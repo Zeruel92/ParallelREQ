@@ -67,6 +67,7 @@ int main(int argc, char** argv){
     MPI_Barrier(MPI_COMM_WORLD);
     elapsed = -MPI_Wtime();
     for(iterations=0; iterations<MAX_ITERATIONS; iterations++){
+        sketch = datasketches::req_sketch<data_t>(12);
         for(int i=0; i < block_size; i ++){
             sketch.update(elements[i]);
         }
