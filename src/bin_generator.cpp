@@ -5,7 +5,7 @@
 typedef float data_t;
 
 int main(int argc, char* argv[]) {
-    int i;
+    long i;
     long n;
     data_t *a;
 
@@ -30,7 +30,7 @@ int main(int argc, char* argv[]) {
     for (i = 0; i < n; i++)
     {
         //size_t j = i + rand() / (RAND_MAX / (len - i) + 1);
-        int j = i +(rand()%(n-i));
+        long j = i +(std::rand()%(n-i));
         float t = a[j];
         a[j] = a[i];
         a[i] = t;
