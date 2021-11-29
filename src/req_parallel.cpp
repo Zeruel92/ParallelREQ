@@ -52,7 +52,7 @@ int main(int argc, char** argv){
 
     inputStream.read((char *)elements,sizeof(data_t)*block_size);
 
-#ifdef _DEBUG
+#ifdef DEBUG
     if (!rank) {
         std::cout<<"INPUT Vector: "<<n<<std::endl;
     } else {
@@ -73,9 +73,13 @@ int main(int argc, char** argv){
         }
         std::vector<uint8_t, std::allocator<uint8_t>> bytes = sketch.serialize();
         int data_size = bytes.size();
+        if(block_size!= BLOCK_SIZE(processes-1,processes,n))
+            data_size+=4;
+#ifdef _DEBUG
+        std::cout<<"Process "<<rank<<" Bytes "<<data_size<<" Block size "<<block_size<<std::endl;
+#endif
         merged_bytes =(uint8_t *) calloc(data_size,sizeof(uint8_t));
         MPI_Reduce(bytes.data(),merged_bytes,data_size,MPI_BYTE,merge_reduce_op,0,MPI_COMM_WORLD);
-
         if(!rank) sketch = datasketches::req_sketch<data_t>::deserialize((uint8_t *) merged_bytes,(size_t) data_size);
         free(merged_bytes),merged_bytes= nullptr;
     }
