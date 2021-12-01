@@ -74,7 +74,7 @@ int main(int argc, char** argv){
         std::vector<uint8_t, std::allocator<uint8_t>> bytes = sketch.serialize();
         int data_size = bytes.size();
         if(block_size!= BLOCK_SIZE(processes-1,processes,n))
-            data_size+=4;
+            data_size+=sizeof(data_t);
 #ifdef _DEBUG
         std::cout<<"Process "<<rank<<" Bytes "<<data_size<<" Block size "<<block_size<<std::endl;
 #endif
