@@ -2,35 +2,6 @@
 
 typedef float data_t;
 
-int partition(data_t arr[], int low, int high)
-{
-    data_t pivot = arr[high];
-    int i = (low - 1);
-    for (int j = low; j <= high - 1; j++) {
-        if (arr[j] <= pivot) {
-            i++;
-            std::swap(arr[i], arr[j]);
-        }
-    }
-    std::swap(arr[i + 1], arr[high]);
-    return (i + 1);
-}
-
-// Implementation of QuickSelect
-float quick_select(data_t a[], int left, int right, int k)
-{
-    while (left <= right) {
-        int pivotIndex = partition(a, left, right);
-        if (pivotIndex == k - 1)
-            return a[pivotIndex];
-        else if (pivotIndex > k - 1)
-            right = pivotIndex - 1;
-        else
-            left = pivotIndex + 1;
-    }
-    return -1;
-}
-
 int main(int argc, char *argv[]){
     std::ifstream inputStream;
     long n;
@@ -48,7 +19,8 @@ int main(int argc, char *argv[]){
     std::ofstream fout(argv[2], std::fstream::trunc | std::ios::binary);
     for(int i =0; i < 12; i++){
         k = floor(ranks[i]*n)+1;
-        quantile = quick_select(elements,0,n-1,k);
+        std::nth_element(elements,elements+k,elements+n);
+        quantile = elements[k];
         std::cout<<"Rank "<<ranks[i]<<" Quantile: "<<quantile<<std::endl;
         fout.write((char *) &quantile, sizeof(data_t));
     }
