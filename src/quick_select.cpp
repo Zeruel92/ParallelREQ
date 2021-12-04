@@ -35,15 +35,20 @@ int main(int argc, char *argv[]){
     std::ifstream inputStream;
     long n;
     data_t *elements= nullptr;
+    data_t quantile;
+    int k;
+    float ranks[12] = {0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.95, 0.99};
+
     inputStream.open(argv[1], std::ios::binary);
     inputStream.read((char *) &n,sizeof(long));
     elements = (data_t *) malloc(sizeof(data_t)*n);
     inputStream.read((char *)elements,sizeof(data_t)*n);
     inputStream.close();
+
     std::ofstream fout(argv[2], std::fstream::trunc | std::ios::binary);
-    float ranks[12] = {0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.95, 0.99};
     for(int i =0; i < 12; i++){
-        data_t quantile = quick_select(elements,0,n-1,ranks[i]*n);
+        k = floor(ranks[i]*n)+1;
+        quantile = quick_select(elements,0,n-1,k);
         std::cout<<"Rank "<<ranks[i]<<" Quantile: "<<quantile<<std::endl;
         fout.write((char *) &quantile, sizeof(data_t));
     }
