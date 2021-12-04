@@ -15,4 +15,6 @@ add_executable(req_sequential src/req_sequential.cpp)
 add_executable(bin_generator src/bin_generator.cpp)
 add_executable(req_parallel src/req_parallel.cpp)
 target_link_libraries(req_parallel ${MPI_LIBRARIES})
-
+add_executable(req_parallel_v2 src/req_parallel_v2.cpp)
+target_link_libraries(req_parallel_v2 ${MPI_LIBRARIES})
+add_executable(quick_select src/quick_select.cpp)
