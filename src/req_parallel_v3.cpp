@@ -9,7 +9,7 @@
                      (BLOCK_HIGH(id,p,n)-BLOCK_LOW(id,p,n)+1)
 
 typedef float data_t;
-
+bool hra = true;
 void merge_reduce(void *inputBuffer, void *outputBuffer,int *len,MPI_Datatype *datatype);
 
 int main(int argc, char** argv){
@@ -37,10 +37,11 @@ int main(int argc, char** argv){
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
     MPI_Comm_size(MPI_COMM_WORLD,&processes);
 
-    if(argc < 2){
-        std::cerr<<"Missing input file"<<std::endl;
+    if(argc < 4){
+        std::cerr<<"Usage: mpirun --np <#process> ./"<<argv[1]<<" <input vector> <ground_truth> <1/0 for hra>"<<std::endl;
         MPI_Abort(MPI_COMM_WORLD,-1);
     }
+    hra = strtol(argv[3],NULL,10);
 
     MPI_Op_create(merge_reduce,0,&merge_reduce_op);
 
@@ -71,7 +72,7 @@ int main(int argc, char** argv){
     MPI_Barrier(MPI_COMM_WORLD);
     elapsed = -MPI_Wtime();
     for(iterations=0; iterations<MAX_ITERATIONS; iterations++){
-        sketch = datasketches::req_sketch<data_t>(12);
+        sketch = datasketches::req_sketch<data_t>(12,hra);
         for(int i=0; i < block_size; i ++){
             sketch.update(elements[i]);
         }
@@ -109,7 +110,7 @@ int main(int argc, char** argv){
 
         for (int i = 0; i < 12; i++) {
             accuracy[i] = 100 - (std::abs(quantiles[i]-ground_truth[i])/ground_truth[i] * 100);
-            std::cout << "Rank: " << ranks[i] << " Quantile: " << quantiles[i] <<" Accuracy: "<<accuracy[i]<<std::endl;
+            std::cout << "Rank: " << ranks[i] << " Quantile: " << quantiles[i] <<" Accuracy: "<<accuracy[i]<<"%"<<std::endl;
         }
     }
     free(accuracy), accuracy= nullptr;
@@ -118,8 +119,8 @@ int main(int argc, char** argv){
 }
 
 void merge_reduce(void *inputBuffer, void *outputBuffer,int *len,MPI_Datatype *datatype){
-    datasketches::req_sketch<data_t> insketch(12);
-    datasketches::req_sketch<data_t> outsketch(12);
+    datasketches::req_sketch<data_t> insketch(12,hra);
+    datasketches::req_sketch<data_t> outsketch(12,hra);
     insketch = datasketches::req_sketch<data_t>::deserialize((uint8_t *) inputBuffer, (size_t) len);
     outsketch = datasketches::req_sketch<data_t>::deserialize((uint8_t *) outputBuffer, (size_t) len);
     outsketch.merge(insketch);
