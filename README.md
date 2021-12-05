@@ -35,3 +35,13 @@ Is a simple script that execute req_parallel with a number of processes ranging 
 in order to take some performance measure
 
 ## Compiling
+
+Using cmake 
+```
+mkdir cmake-build
+cd cmake-build
+cmake ..
+make
+```
+ 
+The compiled object can be found in the build dir in the root of project
