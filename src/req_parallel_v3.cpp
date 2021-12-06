@@ -79,8 +79,6 @@ int main(int argc, char** argv){
         std::vector<uint8_t, std::allocator<uint8_t>> bytes = sketch.serialize();
         int data_size = bytes.size();
         int max_data_size;
-        /*if(block_size!= BLOCK_SIZE(processes-1,processes,n))
-            data_size+=sizeof(data_t);*/
         MPI_Allreduce(&data_size, &max_data_size,1, MPI_INT, MPI_MAX,MPI_COMM_WORLD);
 #ifdef _DEBUG
         std::cout<<"Process "<<rank<<" Bytes "<<data_size<<" Max Bytes "<< max_data_size<<" Block size "<<block_size<<std::endl;
