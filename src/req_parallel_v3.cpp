@@ -107,7 +107,7 @@ int main(int argc, char** argv){
         inputStream.read((char *) ground_truth, sizeof(data_t)*12);
 
         for (int i = 0; i < 12; i++) {
-            accuracy[i] = 100 - (std::abs(quantiles[i]-ground_truth[i])/ground_truth[i] * 100);
+            accuracy[i] = 100 - (std::abs(quantiles[i]-ground_truth[i])/quantiles[i] * 100);
             std::cout << "Rank: " << ranks[i] << " Quantile: " << quantiles[i] <<" Accuracy: "<<accuracy[i]<<"%"<<std::endl;
         }
     }
