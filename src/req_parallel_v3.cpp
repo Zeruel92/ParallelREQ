@@ -125,3 +125,7 @@ void merge_reduce(void *inputBuffer, void *outputBuffer,int *len,MPI_Datatype *d
     std::vector<uint8_t, std::allocator<uint8_t>> bytes = outsketch.serialize();
     outputBuffer = (void *) bytes.data();
 }
+//TODO: eliminare la all reduce, usare la formula per determinare la dimensione massima dell'array
+//TODO: creare un'array che contenga la dimensione effettiva e la serializzazione dello sketch
+//TODO: deserializzare tenendo conto della dimensione scritta nell'array
+//TODO: creare un tipo di dato contigous per usare un solo elemento nella reduce
