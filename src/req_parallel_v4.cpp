@@ -11,22 +11,23 @@
 typedef float data_t;
 bool hra = true;
 int k = 12;
-void merge_reduce(void *inputBuffer, void *outputBuffer,int *len,MPI_Datatype *datatype);
 
-int main(int argc, char** argv){
+void merge_reduce(void *inputBuffer, void *outputBuffer, int *len, MPI_Datatype *datatype);
+
+int main(int argc, char **argv) {
     int processes, rank;
     int iterations;
-    double elapsed,global_elapsed;
+    double elapsed, global_elapsed;
     std::ifstream inputStream;
     long n;
-    data_t *elements= nullptr;
+    data_t *elements = nullptr;
     int block_size;
     int block_low;
     datasketches::req_sketch<float> sketch(k);
-    int B,number_compactors,max_data_size;
+    int B, number_compactors, max_data_size;
     MPI_Op merge_reduce_op;
-    uint8_t *serialized_sketch= nullptr;
-    uint8_t *merged_sketch= nullptr;
+    uint8_t *serialized_sketch = nullptr;
+    uint8_t *merged_sketch = nullptr;
     data_t *ground_truth = nullptr;
     double ranks[12] = {0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.95, 0.99};
     std::vector<float> quantiles;
@@ -36,36 +37,37 @@ int main(int argc, char** argv){
     int debug = 1;
     MPI_Status status;
 #endif
-    MPI_Init(&argc,&argv);
-    MPI_Comm_rank(MPI_COMM_WORLD,&rank);
-    MPI_Comm_size(MPI_COMM_WORLD,&processes);
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &processes);
 
-    if(argc < 4){
-        std::cerr<<"Usage: mpirun --np <#process> ./"<<argv[1]<<" <input vector> <ground_truth> <1/0 for hra>"<<std::endl;
-        MPI_Abort(MPI_COMM_WORLD,-1);
+    if (argc < 4) {
+        std::cerr << "Usage: mpirun --np <#process> ./" << argv[1] << " <input vector> <ground_truth> <1/0 for hra>"
+                  << std::endl;
+        MPI_Abort(MPI_COMM_WORLD, -1);
     }
-    hra = strtol(argv[3],NULL,10);
+    hra = strtol(argv[3], NULL, 10);
 
-    MPI_Op_create(merge_reduce,0,&merge_reduce_op);
+    MPI_Op_create(merge_reduce, 0, &merge_reduce_op);
 
     inputStream.open(argv[1], std::ios::binary);
-    inputStream.read((char *) &n,sizeof(long));
+    inputStream.read((char *) &n, sizeof(long));
 
-    block_size = BLOCK_SIZE(rank,processes,n);
-    block_low = BLOCK_LOW(rank,processes,n);
+    block_size = BLOCK_SIZE(rank, processes, n);
+    block_low = BLOCK_LOW(rank, processes, n);
 
-    B = 2*k* ceil(log2(n/k));
-    number_compactors = ceil(log2(n/B)) +1;
+    B = 2 * k * ceil(log2(n / k));
+    number_compactors = ceil(log2(n / B)) + 1;
 
-    max_data_size = number_compactors*B*sizeof(data_t);
+    max_data_size = number_compactors * B * sizeof(data_t);
 
-    int buffersize = max_data_size+sizeof(size_t);
+    int buffersize = max_data_size + sizeof(size_t);
 
-    elements = (data_t *) malloc(sizeof(data_t)*block_size);
+    elements = (data_t *) malloc(sizeof(data_t) * block_size);
 
-    inputStream.seekg(block_low*sizeof(data_t),std::ios_base::cur);
+    inputStream.seekg(block_low * sizeof(data_t), std::ios_base::cur);
 
-    inputStream.read((char *)elements,sizeof(data_t)*block_size);
+    inputStream.read((char *) elements, sizeof(data_t) * block_size);
     inputStream.close();
 #ifdef DEBUG
     if (!rank) {
@@ -81,12 +83,12 @@ int main(int argc, char** argv){
 
     MPI_Barrier(MPI_COMM_WORLD);
     elapsed = -MPI_Wtime();
-    for(iterations=0; iterations<MAX_ITERATIONS; iterations++){
-        sketch = datasketches::req_sketch<data_t>(12,hra);
-        for(int i=0; i < block_size; i ++){
+    for (iterations = 0; iterations < MAX_ITERATIONS; iterations++) {
+        sketch = datasketches::req_sketch<data_t>(12, hra);
+        for (int i = 0; i < block_size; i++) {
             sketch.update(elements[i]);
         }
-        serialized_sketch =(uint8_t *) malloc(buffersize);
+        serialized_sketch = (uint8_t *) malloc(buffersize);
         merged_sketch = (uint8_t *) malloc(buffersize);
 
         std::vector<uint8_t, std::allocator<uint8_t>> bytes = sketch.serialize();
@@ -96,59 +98,61 @@ int main(int argc, char** argv){
         std::cout<<"Process "<<rank<<" Bytes "<<data_size<<" Max Bytes "<< max_data_size<<" Block size "<<block_size<<std::endl;
 #endif
 
-        memcpy(serialized_sketch+sizeof(size_t),bytes.data(),data_size);
-        memcpy(serialized_sketch,&data_size,sizeof(size_t));
+        memcpy(serialized_sketch + sizeof(size_t), bytes.data(), data_size);
+        memcpy(serialized_sketch, &data_size, sizeof(size_t));
 
-        MPI_Reduce(serialized_sketch,merged_sketch,buffersize,MPI_BYTE,merge_reduce_op,0,MPI_COMM_WORLD);
-        if(!rank) {
-            data_size = *(size_t *)merged_sketch;
-            sketch = datasketches::req_sketch<data_t>::deserialize(merged_sketch+sizeof(size_t),data_size);
+        MPI_Reduce(serialized_sketch, merged_sketch, buffersize, MPI_BYTE, merge_reduce_op, 0, MPI_COMM_WORLD);
+        if (!rank) {
+            data_size = *(size_t *) merged_sketch;
+            sketch = datasketches::req_sketch<data_t>::deserialize(merged_sketch + sizeof(size_t), data_size);
         }
-        free(merged_sketch),merged_sketch= nullptr;
-        free(serialized_sketch),serialized_sketch= nullptr;
+        free(merged_sketch), merged_sketch = nullptr;
+        free(serialized_sketch), serialized_sketch = nullptr;
     }
-    free(elements),elements= nullptr;
+    free(elements), elements = nullptr;
 
     MPI_Barrier(MPI_COMM_WORLD);
     elapsed += MPI_Wtime();
     elapsed /= MAX_ITERATIONS;
-    MPI_Reduce(&elapsed,&global_elapsed,1,MPI_DOUBLE,MPI_MAX,0,MPI_COMM_WORLD);
+    MPI_Reduce(&elapsed, &global_elapsed, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
     MPI_Finalize();
 
-    if(!rank) {
-        std::cout << "ParallelREQ running time:" << global_elapsed << " number of processors: " << processes << std::endl;
+    if (!rank) {
+        std::cout << "ParallelREQ running time:" << global_elapsed << " number of processors: " << processes
+                  << std::endl;
 
         quantiles = sketch.get_quantiles(ranks, 12);
         inputStream.open(argv[2], std::ios::binary);
-        ground_truth = (data_t *) malloc(sizeof(data_t)*12);
-        accuracy = (data_t * ) malloc(sizeof(data_t)*12);
-        inputStream.read((char *) ground_truth, sizeof(data_t)*12);
+        ground_truth = (data_t *) malloc(sizeof(data_t) * 12);
+        accuracy = (data_t *) malloc(sizeof(data_t) * 12);
+        inputStream.read((char *) ground_truth, sizeof(data_t) * 12);
 
         for (int i = 0; i < 12; i++) {
-            accuracy[i] = 100 - (std::abs(quantiles[i]-ground_truth[i])/quantiles[i] * 100);
-            std::cout << "Rank: " << ranks[i] << " Quantile: " << quantiles[i] <<" Accuracy: "<<accuracy[i]<<"%"<<std::endl;
+            accuracy[i] = 100 - (std::abs(quantiles[i] - ground_truth[i]) / quantiles[i] * 100);
+            std::cout << "Rank: " << ranks[i] << " Quantile: " << quantiles[i] << " Accuracy: " << accuracy[i] << "%"
+                      << std::endl;
         }
     }
-    free(accuracy), accuracy= nullptr;
-    free(ground_truth),ground_truth = nullptr;
+    free(accuracy), accuracy = nullptr;
+    free(ground_truth), ground_truth = nullptr;
     return 0;
 }
 
-void merge_reduce(void *inputBuffer, void *outputBuffer,int *len,MPI_Datatype *datatype){
-    datasketches::req_sketch<data_t> insketch(k,hra);
-    datasketches::req_sketch<data_t> outsketch(k,hra);
+void merge_reduce(void *inputBuffer, void *outputBuffer, int *len, MPI_Datatype *datatype) {
+    datasketches::req_sketch<data_t> insketch(k, hra);
+    datasketches::req_sketch<data_t> outsketch(k, hra);
 
     size_t insize = *(size_t *) inputBuffer;
     size_t outsize = *(size_t *) outputBuffer;
 
-    insketch = datasketches::req_sketch<data_t>::deserialize((uint8_t *) inputBuffer+sizeof(size_t), insize);
-    outsketch = datasketches::req_sketch<data_t>::deserialize((uint8_t *)outputBuffer+sizeof(size_t), outsize);
+    insketch = datasketches::req_sketch<data_t>::deserialize((uint8_t *) inputBuffer + sizeof(size_t), insize);
+    outsketch = datasketches::req_sketch<data_t>::deserialize((uint8_t *) outputBuffer + sizeof(size_t), outsize);
 
     outsketch.merge(insketch);
 
     std::vector<uint8_t, std::allocator<uint8_t>> bytes = outsketch.serialize();
     outsize = bytes.size();
-    memcpy((uint8_t *) outputBuffer,&outsize,sizeof(size_t));
-    memcpy((uint8_t *) outputBuffer+sizeof(size_t),bytes.data(),bytes.size());
+    memcpy((uint8_t *) outputBuffer, &outsize, sizeof(size_t));
+    memcpy((uint8_t *) outputBuffer + sizeof(size_t), bytes.data(), bytes.size());
 }
 
