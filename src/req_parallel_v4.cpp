@@ -26,6 +26,7 @@ int main(int argc, char **argv) {
     datasketches::req_sketch<float> sketch(k);
     int B, number_compactors, max_data_size;
     MPI_Op merge_reduce_op;
+    MPI_Datatype mpi_reduce_array_t;
     uint8_t *serialized_sketch = nullptr;
     uint8_t *merged_sketch = nullptr;
     data_t *ground_truth = nullptr;
@@ -62,6 +63,9 @@ int main(int argc, char **argv) {
     max_data_size = number_compactors * B * sizeof(data_t);
 
     int buffersize = max_data_size + sizeof(size_t);
+
+    MPI_Type_contiguous(buffersize,MPI_BYTE,&mpi_reduce_array_t);
+    MPI_Type_commit(&mpi_reduce_array_t);
 
     elements = (data_t *) malloc(sizeof(data_t) * block_size);
 
@@ -101,7 +105,7 @@ int main(int argc, char **argv) {
         memcpy(serialized_sketch + sizeof(size_t), bytes.data(), data_size);
         memcpy(serialized_sketch, &data_size, sizeof(size_t));
 
-        MPI_Reduce(serialized_sketch, merged_sketch, buffersize, MPI_BYTE, merge_reduce_op, 0, MPI_COMM_WORLD);
+        MPI_Reduce(serialized_sketch, merged_sketch, 1, mpi_reduce_array_t, merge_reduce_op, 0, MPI_COMM_WORLD);
         if (!rank) {
             data_size = *(size_t *) merged_sketch;
             sketch = datasketches::req_sketch<data_t>::deserialize(merged_sketch + sizeof(size_t), data_size);
