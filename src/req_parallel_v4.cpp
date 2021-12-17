@@ -41,8 +41,8 @@ int main(int argc, char **argv) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &processes);
 
-    if (argc < 4) {
-        std::cerr << "Usage: mpirun --np <#process> ./" << argv[1] << " <input vector> <ground_truth> <1/0 for hra>"
+    if (argc < 4 && !rank) {
+        std::cerr << "Usage: mpirun --np <#process>" << argv[0] << " <input vector> <ground_truth> <1/0 for hra>"
                   << std::endl;
         MPI_Abort(MPI_COMM_WORLD, -1);
     }
@@ -51,6 +51,10 @@ int main(int argc, char **argv) {
     MPI_Op_create(merge_reduce, 0, &merge_reduce_op);
 
     inputStream.open(argv[1], std::ios::binary);
+    if(!inputStream){
+        std::cerr<<"Error opening file "<<argv[1]<<std::endl;
+        MPI_Abort(MPI_COMM_WORLD, -2);
+    }
     inputStream.read((char *) &n, sizeof(long));
 
     block_size = BLOCK_SIZE(rank, processes, n);
@@ -89,7 +93,15 @@ int main(int argc, char **argv) {
             sketch.update(elements[i]);
         }
         serialized_sketch = (uint8_t *) malloc(buffersize);
+        if(serialized_sketch == nullptr){
+            std::cerr<<"Not Enough memory to alloc"<<std::endl;
+            MPI_Abort(MPI_COMM_WORLD,-3);
+        }
         merged_sketch = (uint8_t *) malloc(buffersize);
+        if(merged_sketch == nullptr){
+            std::cerr<<"Not Enough memory to alloc"<<std::endl;
+            MPI_Abort(MPI_COMM_WORLD,-3);
+        }
 
         std::vector<uint8_t, std::allocator<uint8_t>> bytes = sketch.serialize();
         size_t data_size = bytes.size();
@@ -123,8 +135,20 @@ int main(int argc, char **argv) {
 
         quantiles = sketch.get_quantiles(ranks, 12);
         inputStream.open(argv[2], std::ios::binary);
+        if(!inputStream){
+            std::cerr<<"Error opening file "<<argv[2]<<std::endl;
+            return -2;
+        }
         ground_truth = (data_t *) malloc(sizeof(data_t) * 12);
+        if(ground_truth == nullptr){
+            std::cerr<<"Not Enough memory to alloc"<<std::endl;
+            return -3;
+        }
         accuracy = (data_t *) malloc(sizeof(data_t) * 12);
+        if(accuracy == nullptr){
+            std::cerr<<"Not Enough memory to alloc"<<std::endl;
+            return -3;
+        }
         inputStream.read((char *) ground_truth, sizeof(data_t) * 12);
 
         for (int i = 0; i < 12; i++) {
