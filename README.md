@@ -40,8 +40,15 @@ Using cmake
 ```
 mkdir cmake-build
 cd cmake-build
-cmake ..
+cmake -DCMAKE_BUILD_TYPE=<BUILD_TYPE> ..
 make
 ```
  
-The compiled object can be found in the build dir in the root of project
+***BUILD_TYPE*** can be:
+
+- ***Release***: cmake will use this flags for compiling: `-O3 -DMAX_ITERATIONS=100 -Wall -Wextra`
+- ***Debug***: cmake will use this flags for compiling: `-D_DEBUG -DMAX_ITERATIONS=1 -Wall -Wextra`
+
+The ***_DEBUG*** flag enable some part of the code used for debugging purpose.
+The ***MAX_ITERATIONS*** flag indicate the number of iteration will be executed.
+The compiled object can be found in the build dir in the root of project.
