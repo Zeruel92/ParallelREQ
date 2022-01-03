@@ -1,0 +1,4 @@
+ParallelREQ running time:45.7884 number of processors: 1
+ParallelREQ running time:23.8327 number of processors: 2
+ParallelREQ running time:16.7851 number of processors: 3
+ParallelREQ running time:12.5012 number of processors: 4
