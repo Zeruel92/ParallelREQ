@@ -34,8 +34,16 @@ int main(int argc, char *argv[]) {
     //build sketch
     is.read((char *) element, sizeof(float) * n);
     is.close();
-    for (int i = 0; i < n; i++)
-        sketch.update(element[i]);
+    auto start = std::chrono::steady_clock::now();
+    for(int k = 0; k< MAX_ITERATIONS; k++) {
+        sketch = datasketches::req_sketch<data_t>(12, false);
+        for (int i = 0; i < n; i++)
+            sketch.update(element[i]);
+    }
+    auto end = std::chrono::steady_clock::now();
+    auto elapsed = (double) std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count()/n;
+    elapsed/=MAX_ITERATIONS;
+    std::cout << "One update operation took: = " << elapsed << "[ns]" << std::endl;
     free(element), element = nullptr;
 #endif
 
