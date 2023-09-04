@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 project(ParallelREQ CXX)
 
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_FLAGS "-O3 -DMAX_ITERATIONS=100 -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "-O3 -DMAX_ITERATIONS=1 -Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "-D_DEBUG -DMAX_ITERATIONS=1 -Wall -Wextra")
 set(CMAKE_CXX_COMPILER mpiicpc)
 

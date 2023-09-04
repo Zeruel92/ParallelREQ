@@ -21,8 +21,8 @@ int main(int argc, char **argv) {
     std::ifstream inputStream;
     long n;
     data_t *elements = nullptr;
-    int block_size;
-    int block_low;
+    long block_size;
+    long block_low;
     datasketches::req_sketch<float> sketch(k);
     int B, number_compactors, max_data_size;
     MPI_Op merge_reduce_op;

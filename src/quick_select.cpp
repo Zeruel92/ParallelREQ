@@ -7,7 +7,7 @@ int main(int argc, char *argv[]){
     long n;
     data_t *elements= nullptr;
     data_t quantile;
-    int k;
+    long k;
     float ranks[12] = {0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.95, 0.99};
 
     inputStream.open(argv[1], std::ios::binary);
