@@ -14,6 +14,12 @@ Usage: `./bin_generator <n> <outputfile>`
 
 The output file has as first element the number of total elements stored, and following all the others elements.
 
+### intro_select
+
+Perform the IntroSelect algorithm on the input file providing a ground truth output file used for compute the accuracy of ParallelREQ
+
+Usage: `./intro_select <input file> <output file>`
+
 ### req_sequential
 
 `req_sequential` uses the apache datasketches library to compute quantiles in sequential
