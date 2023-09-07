@@ -21,7 +21,7 @@ The output file has as first element the number of total elements stored, and fo
 ### req_parallel
 
 `req_parallel` uses the `Apache datasketches` library to compute quantiles in parallel.
-Usage: `mpirun --np <number of processes> ./req_parallel <fileinput>`
+Usage: `mpirun --np <number of processes> ./req_parallel <fileinput> <ground_truth> <0/1 hra>`
 Each process read the file in input to retrieve the total number of elements `n`.
 After that each process compute the own block of data and read it from file.
 
@@ -31,7 +31,7 @@ Finally, using a user defined reduction the intermediate summaries are merged in
 
 ### benchmark.sh
 
-Is a simple script that execute req_parallel with a number of processes ranging from 1 to 8,
+Is a simple script that execute req_parallel with a number of processes ranging from 1 to 4,
 in order to take some performance measure
 
 ## Compiling
@@ -46,7 +46,7 @@ make
  
 ***BUILD_TYPE*** can be:
 
-- ***Release***: cmake will use this flags for compiling: `-O3 -DMAX_ITERATIONS=100 -Wall -Wextra`
+- ***Release***: cmake will use this flags for compiling: `-O3 -DMAX_ITERATIONS=1 -Wall -Wextra`
 - ***Debug***: cmake will use this flags for compiling: `-D_DEBUG -DMAX_ITERATIONS=1 -Wall -Wextra`
 
 The ***_DEBUG*** flag enable some part of the code used for debugging purpose.

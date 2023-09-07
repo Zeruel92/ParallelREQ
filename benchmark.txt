@@ -1,4 +1,180 @@
-ParallelREQ running time:45.7884 number of processors: 1
-ParallelREQ running time:23.8327 number of processors: 2
-ParallelREQ running time:16.7851 number of processors: 3
-ParallelREQ running time:12.5012 number of processors: 4
+------ 500M benchmark --------
+ParallelREQ running time:27.9549 number of processors: 1
+Rank: 0.01 Quantile: 0.00995317 Accuracy: 99.5295%
+Rank: 0.1 Quantile: 0.0963071 Accuracy: 96.1655%
+Rank: 0.2 Quantile: 0.194425 Accuracy: 97.1328%
+Rank: 0.3 Quantile: 0.301957 Accuracy: 99.352%
+Rank: 0.4 Quantile: 0.396905 Accuracy: 99.2201%
+Rank: 0.5 Quantile: 0.499377 Accuracy: 99.8752%
+Rank: 0.6 Quantile: 0.602371 Accuracy: 99.6063%
+Rank: 0.7 Quantile: 0.701957 Accuracy: 99.7213%
+Rank: 0.8 Quantile: 0.808349 Accuracy: 98.9671%
+Rank: 0.9 Quantile: 0.905915 Accuracy: 99.3471%
+Rank: 0.95 Quantile: 0.947725 Accuracy: 99.7599%
+Rank: 0.99 Quantile: 0.99514 Accuracy: 99.4835%
+------------------------------
+------ 500M benchmark --------
+ParallelREQ running time:13.536 number of processors: 2
+Rank: 0.01 Quantile: 0.0100971 Accuracy: 99.0381%
+Rank: 0.1 Quantile: 0.100007 Accuracy: 99.9926%
+Rank: 0.2 Quantile: 0.199487 Accuracy: 99.7429%
+Rank: 0.3 Quantile: 0.30126 Accuracy: 99.5818%
+Rank: 0.4 Quantile: 0.398757 Accuracy: 99.6882%
+Rank: 0.5 Quantile: 0.498531 Accuracy: 99.7052%
+Rank: 0.6 Quantile: 0.600237 Accuracy: 99.9605%
+Rank: 0.7 Quantile: 0.706725 Accuracy: 99.0484%
+Rank: 0.8 Quantile: 0.81992 Accuracy: 97.5705%
+Rank: 0.9 Quantile: 0.921967 Accuracy: 97.6174%
+Rank: 0.95 Quantile: 0.958877 Accuracy: 99.0742%
+Rank: 0.99 Quantile: 0.9982 Accuracy: 99.1785%
+------------------------------
+------ 500M benchmark --------
+ParallelREQ running time:9.30733 number of processors: 3
+Rank: 0.01 Quantile: 0.0100014 Accuracy: 99.9857%
+Rank: 0.1 Quantile: 0.0998996 Accuracy: 99.8995%
+Rank: 0.2 Quantile: 0.201152 Accuracy: 99.4273%
+Rank: 0.3 Quantile: 0.305731 Accuracy: 98.1256%
+Rank: 0.4 Quantile: 0.40536 Accuracy: 98.6778%
+Rank: 0.5 Quantile: 0.511068 Accuracy: 97.8343%
+Rank: 0.6 Quantile: 0.610976 Accuracy: 98.2035%
+Rank: 0.7 Quantile: 0.715427 Accuracy: 97.8437%
+Rank: 0.8 Quantile: 0.807646 Accuracy: 99.0533%
+Rank: 0.9 Quantile: 0.922261 Accuracy: 97.5862%
+Rank: 0.95 Quantile: 0.965726 Accuracy: 98.3715%
+Rank: 0.99 Quantile: 0.998951 Accuracy: 99.104%
+------------------------------
+------ 500M benchmark --------
+ParallelREQ running time:7.10041 number of processors: 4
+Rank: 0.01 Quantile: 0.0100308 Accuracy: 99.6932%
+Rank: 0.1 Quantile: 0.099761 Accuracy: 99.7605%
+Rank: 0.2 Quantile: 0.20279 Accuracy: 98.6242%
+Rank: 0.3 Quantile: 0.306869 Accuracy: 97.7616%
+Rank: 0.4 Quantile: 0.403574 Accuracy: 99.1145%
+Rank: 0.5 Quantile: 0.499309 Accuracy: 99.8616%
+Rank: 0.6 Quantile: 0.600404 Accuracy: 99.9327%
+Rank: 0.7 Quantile: 0.705444 Accuracy: 99.2283%
+Rank: 0.8 Quantile: 0.807695 Accuracy: 99.0473%
+Rank: 0.9 Quantile: 0.915635 Accuracy: 98.2924%
+Rank: 0.95 Quantile: 0.95716 Accuracy: 99.2519%
+Rank: 0.99 Quantile: 0.993861 Accuracy: 99.6115%
+------------------------------
+------ 1G benchmark --------
+ParallelREQ running time:53.1296 number of processors: 1
+Rank: 0.01 Quantile: 0.00994976 Accuracy: 99.4951%
+Rank: 0.1 Quantile: 0.100267 Accuracy: 99.7339%
+Rank: 0.2 Quantile: 0.203204 Accuracy: 98.4231%
+Rank: 0.3 Quantile: 0.297114 Accuracy: 99.0288%
+Rank: 0.4 Quantile: 0.403234 Accuracy: 99.1979%
+Rank: 0.5 Quantile: 0.500899 Accuracy: 99.8206%
+Rank: 0.6 Quantile: 0.609344 Accuracy: 98.4665%
+Rank: 0.7 Quantile: 0.701791 Accuracy: 99.7448%
+Rank: 0.8 Quantile: 0.810291 Accuracy: 98.73%
+Rank: 0.9 Quantile: 0.897859 Accuracy: 99.7615%
+Rank: 0.95 Quantile: 0.963843 Accuracy: 98.5637%
+Rank: 0.99 Quantile: 0.990926 Accuracy: 99.9065%
+------------------------------
+------ 1G benchmark --------
+ParallelREQ running time:28.1928 number of processors: 2
+Rank: 0.01 Quantile: 0.0100567 Accuracy: 99.4359%
+Rank: 0.1 Quantile: 0.101371 Accuracy: 98.6473%
+Rank: 0.2 Quantile: 0.201461 Accuracy: 99.2749%
+Rank: 0.3 Quantile: 0.305416 Accuracy: 98.2265%
+Rank: 0.4 Quantile: 0.406086 Accuracy: 98.5014%
+Rank: 0.5 Quantile: 0.501385 Accuracy: 99.7238%
+Rank: 0.6 Quantile: 0.61007 Accuracy: 98.3494%
+Rank: 0.7 Quantile: 0.703431 Accuracy: 99.5123%
+Rank: 0.8 Quantile: 0.804554 Accuracy: 99.434%
+Rank: 0.9 Quantile: 0.9005 Accuracy: 99.9445%
+Rank: 0.95 Quantile: 0.961282 Accuracy: 98.8263%
+Rank: 0.99 Quantile: 0.9963 Accuracy: 99.3676%
+------------------------------
+------ 1G benchmark --------
+ParallelREQ running time:18.5229 number of processors: 3
+Rank: 0.01 Quantile: 0.00997141 Accuracy: 99.7132%
+Rank: 0.1 Quantile: 0.100365 Accuracy: 99.6362%
+Rank: 0.2 Quantile: 0.20167 Accuracy: 99.1717%
+Rank: 0.3 Quantile: 0.306159 Accuracy: 97.9882%
+Rank: 0.4 Quantile: 0.403056 Accuracy: 99.2418%
+Rank: 0.5 Quantile: 0.518212 Accuracy: 96.4855%
+Rank: 0.6 Quantile: 0.616318 Accuracy: 97.3523%
+Rank: 0.7 Quantile: 0.716928 Accuracy: 97.6387%
+Rank: 0.8 Quantile: 0.817003 Accuracy: 97.9188%
+Rank: 0.9 Quantile: 0.911936 Accuracy: 98.6912%
+Rank: 0.95 Quantile: 0.960125 Accuracy: 98.9454%
+Rank: 0.99 Quantile: 0.996968 Accuracy: 99.3011%
+------------------------------
+------ 1G benchmark --------
+ParallelREQ running time:14.4425 number of processors: 4
+Rank: 0.01 Quantile: 0.0100191 Accuracy: 99.8098%
+Rank: 0.1 Quantile: 0.0997605 Accuracy: 99.7599%
+Rank: 0.2 Quantile: 0.201392 Accuracy: 99.3089%
+Rank: 0.3 Quantile: 0.306204 Accuracy: 97.9739%
+Rank: 0.4 Quantile: 0.403998 Accuracy: 99.0104%
+Rank: 0.5 Quantile: 0.506693 Accuracy: 98.679%
+Rank: 0.6 Quantile: 0.612175 Accuracy: 98.0112%
+Rank: 0.7 Quantile: 0.71499 Accuracy: 97.9035%
+Rank: 0.8 Quantile: 0.809616 Accuracy: 98.8123%
+Rank: 0.9 Quantile: 0.903679 Accuracy: 99.5928%
+Rank: 0.95 Quantile: 0.960698 Accuracy: 98.8864%
+Rank: 0.99 Quantile: 0.996916 Accuracy: 99.3063%
+------------------------------
+------ 2G benchmark --------
+ParallelREQ running time:96.8914 number of processors: 1
+Rank: 0.01 Quantile: 0.00990009 Accuracy: 98.9908%
+Rank: 0.1 Quantile: 0.0987307 Accuracy: 98.7144%
+Rank: 0.2 Quantile: 0.20368 Accuracy: 98.1933%
+Rank: 0.3 Quantile: 0.301742 Accuracy: 99.4228%
+Rank: 0.4 Quantile: 0.396881 Accuracy: 99.2142%
+Rank: 0.5 Quantile: 0.501507 Accuracy: 99.6996%
+Rank: 0.6 Quantile: 0.608292 Accuracy: 98.6369%
+Rank: 0.7 Quantile: 0.688385 Accuracy: 98.3127%
+Rank: 0.8 Quantile: 0.79662 Accuracy: 99.5757%
+Rank: 0.9 Quantile: 0.895928 Accuracy: 99.5455%
+Rank: 0.95 Quantile: 0.961293 Accuracy: 98.8252%
+Rank: 0.99 Quantile: 0.985771 Accuracy: 99.571%
+------------------------------
+------ 2G benchmark --------
+ParallelREQ running time:49.4452 number of processors: 2
+Rank: 0.01 Quantile: 0.0100161 Accuracy: 99.8395%
+Rank: 0.1 Quantile: 0.101682 Accuracy: 98.3454%
+Rank: 0.2 Quantile: 0.20176 Accuracy: 99.1277%
+Rank: 0.3 Quantile: 0.305299 Accuracy: 98.2642%
+Rank: 0.4 Quantile: 0.401413 Accuracy: 99.648%
+Rank: 0.5 Quantile: 0.501914 Accuracy: 99.6186%
+Rank: 0.6 Quantile: 0.589589 Accuracy: 98.2342%
+Rank: 0.7 Quantile: 0.710931 Accuracy: 98.4624%
+Rank: 0.8 Quantile: 0.809189 Accuracy: 98.8644%
+Rank: 0.9 Quantile: 0.911058 Accuracy: 98.7862%
+Rank: 0.95 Quantile: 0.964827 Accuracy: 98.4633%
+Rank: 0.99 Quantile: 0.996036 Accuracy: 99.394%
+------------------------------
+------ 2G benchmark --------
+ParallelREQ running time:34.3989 number of processors: 3
+Rank: 0.01 Quantile: 0.00991607 Accuracy: 99.1536%
+Rank: 0.1 Quantile: 0.101103 Accuracy: 98.909%
+Rank: 0.2 Quantile: 0.204276 Accuracy: 97.9067%
+Rank: 0.3 Quantile: 0.303181 Accuracy: 98.9506%
+Rank: 0.4 Quantile: 0.398745 Accuracy: 99.6853%
+Rank: 0.5 Quantile: 0.511006 Accuracy: 97.8462%
+Rank: 0.6 Quantile: 0.611591 Accuracy: 98.1048%
+Rank: 0.7 Quantile: 0.713651 Accuracy: 98.0872%
+Rank: 0.8 Quantile: 0.822777 Accuracy: 97.2317%
+Rank: 0.9 Quantile: 0.917054 Accuracy: 98.1404%
+Rank: 0.95 Quantile: 0.961097 Accuracy: 98.8454%
+Rank: 0.99 Quantile: 0.993845 Accuracy: 99.6132%
+------------------------------
+------ 2G benchmark --------
+ParallelREQ running time:25.4327 number of processors: 4
+Rank: 0.01 Quantile: 0.0101309 Accuracy: 98.7082%
+Rank: 0.1 Quantile: 0.0997162 Accuracy: 99.7154%
+Rank: 0.2 Quantile: 0.201012 Accuracy: 99.4966%
+Rank: 0.3 Quantile: 0.302794 Accuracy: 99.0771%
+Rank: 0.4 Quantile: 0.394685 Accuracy: 98.6534%
+Rank: 0.5 Quantile: 0.50373 Accuracy: 99.2596%
+Rank: 0.6 Quantile: 0.611846 Accuracy: 98.0639%
+Rank: 0.7 Quantile: 0.719361 Accuracy: 97.3085%
+Rank: 0.8 Quantile: 0.815347 Accuracy: 98.1177%
+Rank: 0.9 Quantile: 0.914407 Accuracy: 98.4244%
+Rank: 0.95 Quantile: 0.959907 Accuracy: 98.9679%
+Rank: 0.99 Quantile: 0.998278 Accuracy: 99.1708%
+------------------------------

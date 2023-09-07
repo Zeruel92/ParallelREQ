@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
     std::cout<<"Generating "<<n<<" elements with uniform distribution"<<std::endl;
     a = (data_t *) malloc(n * sizeof(data_t));
     for (i = 0; i < n; i++) {
-        a[i] = (float) (i) / (float) (n);
+        a[i] = (data_t) (i) / (data_t) (n);
         //a[i] = (data_t) i *  ((data_t) std::rand() /RAND_MAX)/ (data_t) n;
         //std::cout << a[i] << std::endl;
     }
